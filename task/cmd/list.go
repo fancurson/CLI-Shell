@@ -5,7 +5,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
+	"github.com/fancurson/CLI-Shell/db"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +17,19 @@ var listCmd = &cobra.Command{
 	Short: "Show list of tasks",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+		tasks, err := db.ViewTasks()
+		if err != nil {
+			fmt.Println("Smth went wrong", err.Error())
+			os.Exit(1)
+		}
+		if len(tasks) == 0 {
+			fmt.Println("There is no tasks")
+			return
+		}
+		fmt.Println("Your task list")
+		for i, task := range tasks {
+			fmt.Printf("%d. %s\n", i+1, task.Value)
+		}
 	},
 }
 

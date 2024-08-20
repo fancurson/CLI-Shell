@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/fancurson/CLI-Shell/db"
 	"github.com/spf13/cobra"
 )
 
@@ -25,7 +26,25 @@ var doCmd = &cobra.Command{
 				ids = append(ids, id)
 			}
 		}
-		fmt.Println(ids)
+
+		tasks, err := db.ViewTasks()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		for _, id := range ids {
+			if id <= 0 || id > len(tasks) {
+				fmt.Println("invalid id:", id)
+				continue
+			}
+
+			err := db.DeleteTask(tasks[id-1].Key)
+			if err != nil {
+				fmt.Println(err.Error())
+			} else {
+				fmt.Printf("Mark %d as completed", id)
+			}
+		}
 	},
 }
 

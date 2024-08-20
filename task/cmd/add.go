@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/fancurson/CLI-Shell/db"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +18,11 @@ var addCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		task := strings.Join(args, " ")
-		fmt.Println(task)
+		_, err := db.CreateTask(task)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
 	},
 }
 
