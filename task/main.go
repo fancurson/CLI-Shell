@@ -1,5 +1,11 @@
+/*
+Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+
+*/
 package main
 
-func main() {
+import "github.com/fancurson/CLI-Shell/cmd"
 
+func main() {
+	cmd.Execute()
 }
